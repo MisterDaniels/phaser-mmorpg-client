@@ -1,0 +1,31 @@
+{
+    "name": "phaser-mmorpg-client",
+    "version": "1.0.0",
+    "description": "Phaser MMORPG client",
+    "main": "index.js",
+    "scripts": {
+        "bundle": "parcel ./src/js",
+        "bundle:dev": "parcel watch ./src/js/",
+        "start": "browser-sync start --server --files './src'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "phaser-mmorpg-client"
+    },
+    "keywords": [
+        "phaser",
+        "game",
+        "mmorpg",
+        "online",
+        "client"
+    ],
+    "author": "Daniel Silva",
+    "license": "ISC",
+    "dependencies": {
+        "browser-sync": "^2.27.5",
+        "phaser": "^3.55.2"
+    },
+    "devDependencies": {
+        "parcel-bundler": "^1.12.5"
+    }
+}
