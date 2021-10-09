@@ -4,9 +4,9 @@
     "description": "Phaser MMORPG client",
     "main": "index.js",
     "scripts": {
-        "bundle": "parcel ./src/js",
-        "bundle:dev": "parcel watch ./src/js/",
-        "start": "browser-sync start --server --files './src'"
+        "bundle": "parcel /js",
+        "bundle:dev": "parcel watch ./js/*",
+        "start": "browser-sync start --server --files '.'"
     },
     "repository": {
         "type": "git",
