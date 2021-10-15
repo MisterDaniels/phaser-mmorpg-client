@@ -2,5 +2,8 @@
     "screen": {
         "width": 640,
         "height": 360
+    },
+    "player": {
+        "speed": 5
     }
 }
