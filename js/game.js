@@ -5,9 +5,13 @@ let scene = new Phaser.Scene('Game');
 
 scene.init = function() {
     this.playerSpeed = constants.player.speed;
-    this.enemySpeed = 3;
+
+    this.enemyMinSpeed = 2;
+    this.enemyMaxSpeed = 5;
     this.enemyMinY = 80;
     this.enemyMaxY = 280;
+
+    this.isTerminating = false;
 };
 
 scene.preload = function() {
@@ -30,36 +34,77 @@ scene.create = function() {
     this.treasure = this.add.sprite(this.sys.game.config.width - 80, this.sys.game.config.height / 2, 'treasure');
     this.treasure.setScale(0.6);
 
-    this.enemy = this.add.sprite(120, this.sys.game.config.height / 2, 'enemy');
-    this.enemy.flipX = true;
-    this.enemy.setScale(0.6);
+    this.enemies = this.add.group({
+        key: 'enemy',
+        repeat: 5,
+        setXY: {
+            x: 90,
+            y: 100,
+            stepX: 80,
+            stepY: 20
+        }
+    });
 
-    let dir = Math.random() < 0.5 ? 1 : -1;
-    this.enemy.speed = dir * this.enemySpeed;
+    Phaser.Actions.ScaleXY(this.enemies.getChildren(), -0.4, -0.4);
+    Phaser.Actions.Call(this.enemies.getChildren(), function(enemy) {
+        enemy.flipX = true;
+
+        let dir = Math.random() < 0.5 ? 1 : -1;
+        let speed = this.enemyMinSpeed + Math.random() * (this.enemyMaxSpeed - this.enemyMinSpeed); 
+        enemy.speed = dir * speed;
+    }, this);
 };
 
 scene.update = function () {
+    if(this.isTerminating) return;
+
     if (this.input.activePointer.isDown) {
         this.player.x += this.playerSpeed;
     }
+
+    let enemies = this.enemies.getChildren();
+    let numEnemies = enemies.length;
     
     let playerRect = this.player.getBounds();
+
     let treasureRect = this.treasure.getBounds();
 
     if (Phaser.Geom.Intersects.RectangleToRectangle(playerRect, treasureRect)) {
         this.scene.restart();
         return;
     }
+    
+    for(let i = 0; i < numEnemies; i++) {
+        enemies[i].y += enemies[i].speed;
 
-    this.enemy.y += this.enemy.speed;
+        const conditionUp = enemies[i].speed < 0 && enemies[i].y <= this.enemyMinY;
+        const conditionDown = enemies[i].speed > 0 && enemies[i].y >= this.enemyMaxY;
 
-    const conditionUp = this.enemy.speed < 0 && this.enemy.y <= this.enemyMinY;
-    const conditionDown = this.enemy.speed > 0 && this.enemy.y >= this.enemyMaxY;
+        if (conditionUp || conditionDown) {
+            enemies[i].speed *= -1;
+        }
 
-    if (conditionUp || conditionDown) {
-        this.enemy.speed *= -1;
+        let enemyRect = enemies[i].getBounds();
+
+        if (Phaser.Geom.Intersects.RectangleToRectangle(playerRect, enemyRect)) {
+            return this.gameOver();
+        }
     }
 };
+
+scene.gameOver = function() {
+    this.isTerminating = true;
+    
+    this.cameras.main.shake(500);
+
+    this.cameras.main.on('camerashakecomplete', function(camera, effect) {
+        this.cameras.main.fade(500);
+    }, this);
+
+    this.cameras.main.on('camerafadeoutcomplete', function(camera, effect) {
+        this.scene.restart();
+    }, this);
+}
 
 const config = {
     type: Phaser.AUTO,
