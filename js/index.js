@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import constants from './constants.json';
 
-import { BootScene, GameScene, TitleScene, UiScene } from './scenes';
+import { BootScene, TitleScene, GameScene, UiScene } from './scenes';
 
 const config = {
     type: Phaser.AUTO,
@@ -9,8 +9,8 @@ const config = {
     height: constants.screen.height,
     scene: [
         BootScene,
-        GameScene,
         TitleScene,
+        GameScene,
         UiScene
     ],
     physics: {
