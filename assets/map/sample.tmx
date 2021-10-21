@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-up" width="10" height="8" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="16">
+ <tileset firstgid="1" name="background" tilewidth="32" tileheight="32" tilecount="1504" columns="32">
+  <image source="../assets/images/background.png" width="1024" height="1504"/>
+ </tileset>
+ <layer id="1" name="terrain" width="10" height="8" locked="1">
+  <data encoding="csv">
+304,294,296,296,296,296,296,294,296,296,
+294,296,294,294,302,302,302,302,290,296,
+294,294,294,302,302,294,294,302,290,296,
+294,294,302,302,302,296,290,302,296,290,
+294,294,302,296,302,290,302,294,296,290,
+294,294,304,296,296,294,294,296,290,296,
+294,290,296,296,296,296,296,302,296,296,
+294,290,294,296,296,304,294,294,296,296
+</data>
+ </layer>
+ <layer id="3" name="water" width="10" height="8" locked="1">
+  <data encoding="csv">
+0,0,0,1474,1473,0,0,0,0,0,
+0,0,0,1474,1474,0,0,0,0,0,
+0,0,0,1474,1474,0,0,0,0,0,
+0,0,0,1475,1474,0,0,0,0,0,
+0,0,0,1474,1474,0,0,0,0,0,
+0,0,0,1474,1474,0,0,0,0,0,
+0,0,0,1473,1475,0,0,0,0,0,
+0,0,0,1474,1473,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="4" name="objects" width="10" height="8" locked="1">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,844,0,0,0,0,0,845,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,843,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,779,0,0,779,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="5" name="Camada de Objetos 1">
+  <object id="14" gid="86" x="224" y="192" width="32" height="32">
+   <properties>
+    <property name="name" value="chest"/>
+   </properties>
+  </object>
+  <object id="15" gid="86" x="32" y="128" width="32" height="32">
+   <properties>
+    <property name="name" value="chest"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
