@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import { Chest } from '../objects';
 import { Player } from '../characters';
+import { Map } from '../map';
 
 class GameScene extends Phaser.Scene {
     
@@ -15,9 +16,10 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        this.createMap();
+
         this.createAudio();
         this.createChests();
-        this.createWalls();
         this.createPlayer();
 
         this.addCollisions();
@@ -47,22 +49,21 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-    createWalls() {
-        this.wall = this.physics.add.image(500, 100, 'button1');
-        this.wall.setImmovable();
-    }
-
     createPlayer() {
-        this.player = new Player(this, 32, 32, 'characters', 0);
+        this.player = new Player(this, 224, 224, 'characters', 0);
     }
 
     addCollisions() {
-        this.physics.add.collider(this.player, this.wall);
+        this.physics.add.collider(this.player, this.map.blockedLayer);
         this.physics.add.overlap(this.player, this.chests, this.collectChest, null, this);
     }
 
     createInput() {
         this.cursors = this.input.keyboard.createCursorKeys();
+    }
+
+    createMap() {
+        this.map = new Map(this, 'map', 'background', 'background', 'blocked');
     }
 
     update() {
