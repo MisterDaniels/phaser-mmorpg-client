@@ -9,6 +9,7 @@ node_modules
 
 # Builded folder
 dist
+build
 
 # Cache folder
 .cache
