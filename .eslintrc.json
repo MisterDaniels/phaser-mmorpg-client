@@ -3,5 +3,19 @@
     "env": {
         "browser": true
     },
-    "rules": {}
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "eol-last": 0,
+        "padded-blocks": [
+            "error",
+            "always"
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ]
+    }
 }

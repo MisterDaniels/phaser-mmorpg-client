@@ -22,7 +22,8 @@
     "author": "Daniel Silva",
     "license": "ISC",
     "dependencies": {
-        "phaser": "^3.55.2"
+        "phaser": "^3.55.2",
+        "socket.io-client": "^4.3.2"
     },
     "devDependencies": {
         "@babel/core": "^7.16.0",

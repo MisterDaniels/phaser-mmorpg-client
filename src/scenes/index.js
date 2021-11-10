@@ -4,8 +4,8 @@ import TitleScene from './TitleScene';
 import UiScene from './UiScene';
 
 export {
-  BootScene,
-  GameScene,
-  TitleScene,
-  UiScene,
+    BootScene,
+    GameScene,
+    TitleScene,
+    UiScene
 };

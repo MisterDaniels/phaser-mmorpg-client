@@ -1,36 +1,50 @@
 import Phaser from 'phaser';
 
 class Player extends Phaser.Physics.Arcade.Image {
-  constructor(scene, x, y, key, frame) {
-    super(scene, x, y, key, frame);
 
-    this.scene = scene;
-    this.velocity = 160;
+    constructor(scene, x, y, key, frame) {
 
-    this.scene.physics.world.enable(this);
-    this.setImmovable(false);
-    this.setScale(2);
-    this.setCollideWorldBounds(true);
-    this.scene.add.existing(this);
+        super(scene, x, y, key, frame);
 
-    this.scene.cameras.main.startFollow(this);
-  }
+        this.scene = scene;
+        this.velocity = 160;
 
-  update(cursors) {
-    this.body.setVelocity(0);
+        this.scene.physics.world.enable(this);
+        this.setImmovable(false);
+        this.setScale(2);
+        this.setCollideWorldBounds(true);
+        this.scene.add.existing(this);
 
-    if (cursors.left.isDown) {
-      this.body.setVelocityX(-this.velocity);
-    } else if (cursors.right.isDown) {
-      this.body.setVelocityX(this.velocity);
+        this.scene.cameras.main.startFollow(this);
+
     }
 
-    if (cursors.up.isDown) {
-      this.body.setVelocityY(-this.velocity);
-    } else if (cursors.down.isDown) {
-      this.body.setVelocityY(this.velocity);
+    update(cursors) {
+
+        this.body.setVelocity(0);
+
+        if (cursors.left.isDown) {
+
+            this.body.setVelocityX(-this.velocity);
+
+        } else if (cursors.right.isDown) {
+
+            this.body.setVelocityX(this.velocity);
+
+        }
+
+        if (cursors.up.isDown) {
+
+            this.body.setVelocityY(-this.velocity);
+
+        } else if (cursors.down.isDown) {
+
+            this.body.setVelocityY(this.velocity);
+
+        }
+
     }
-  }
+
 }
 
 export default Player;
