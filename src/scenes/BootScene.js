@@ -54,6 +54,7 @@ class BootScene extends Phaser.Scene {
     create() {
 
         this.scene.start('Game');
+        console.log(`Carregado Boot`);
 
     }
 

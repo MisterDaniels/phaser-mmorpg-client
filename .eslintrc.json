@@ -10,8 +10,11 @@
         ],
         "eol-last": 0,
         "padded-blocks": [
-            "error",
-            "always"
+            {
+                "blocks": "never",
+                "classes": "always",
+                "switches": "never"
+            }
         ],
         "comma-dangle": [
             "error",

@@ -31,6 +31,8 @@ class GameScene extends Phaser.Scene {
 
         this.createGameManager();
 
+        console.log(`Carregado Game`);
+
     }
 
     createAudio() {
@@ -62,7 +64,7 @@ class GameScene extends Phaser.Scene {
 
     }
 
-    createPlayer() {
+    createPlayer(location) {
 
         this.player = new Player(this, location[0] * 2, location[1] * 2, 'characters', 0);
 

@@ -19,6 +19,8 @@ class UiScene extends Phaser.Scene {
         this.setupUiElements();
         this.setupEvents();
 
+        console.log(`Carregado UI`);
+
     }
 
     setupUiElements() {
