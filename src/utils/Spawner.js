@@ -1,3 +1,5 @@
+import { ChestModel } from '../models';
+
 class Spawner {
 
     constructor(config, spawnLocations, addObject, deleteObject) {
@@ -26,12 +28,36 @@ class Spawner {
 
     spawnObject() {
         console.log('spawning object');
-        this.objectsCreated.push([]);
+
+        let object;
+        if (this.objectType === 'CHEST') {
+            object = this.spawnChest();
+        }
+
+        this.objectsCreated.push(object);
+        this.addObject(object.id, object);
     }
 
-    spawnChest() {}
+    spawnChest() {
+        const location = this.pickRandomLocation();
+        return new ChestModel(location[0], location[1], 10, this.id);
+    }
 
-    pickRandomLocation() {}
+    pickRandomLocation() {
+        const location = this.spawnLocations[Math.floor(Math.random() * this.spawnLocations.length)];
+
+        const invalidLocation = this.objectsCreated.some((object) => {
+            if (object.x === location[0] && object.y === location[1]) {
+                return true;
+            }
+
+            return false;
+        });
+
+        if (invalidLocation) return this.pickRandomLocation();
+
+        return location;
+    }
 
     removeObject() {}
 

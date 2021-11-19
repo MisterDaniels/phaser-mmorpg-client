@@ -38,6 +38,8 @@ class GameManager {
                 layer.objects.forEach((obj) => {
                     let spawner  = getTiledProperty(obj, 'spawner');
 
+                    console.log(spawner);
+
                     if (this.chestLocations[spawner]) {
                         this.chestLocations[spawner].push([obj.x, obj.y]);
                     } else {
@@ -64,7 +66,8 @@ class GameManager {
     }
 
     setupSpawners() {
-        Object.keys(this.chestLocations).forEach((key) => {
+        console.log(this.chestLocations);
+        Object.keys(this.chestLocations).forEach((value, key) => {
             const config = {
                 spawnInterval: 3000,
                 limit: 3,
@@ -83,8 +86,9 @@ class GameManager {
         });
     }
 
-    addChest() {
-
+    addChest(id, chest) {
+        this.chests[id] = chest;
+        console.log(chest);
     }
 
     deleteChest() {
