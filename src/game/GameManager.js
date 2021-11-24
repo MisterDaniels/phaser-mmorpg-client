@@ -1,6 +1,7 @@
 import { getTiledProperty } from "../utils/Mapper";
 
 import { Spawner } from "../utils";
+import { SpawnerType } from "../utils";
 
 class GameManager {
 
@@ -36,24 +37,18 @@ class GameManager {
                 });
             } else if (layer.name === 'chest_locations') {
                 layer.objects.forEach((obj) => {
-                    let spawner  = getTiledProperty(obj, 'spawner');
-
-                    console.log(spawner);
-
-                    if (this.chestLocations[spawner]) {
-                        this.chestLocations[spawner].push([obj.x, obj.y]);
+                    if (this.chestLocations[obj.properties.spawner]) {
+                        this.chestLocations[obj.properties.spawner].push([obj.x, obj.y]);
                     } else {
-                        this.chestLocations[spawner] = [[obj.x, obj.y]];
+                        this.chestLocations[obj.properties.spawner] = [[obj.x, obj.y]];
                     }
                 });
             } else if (layer.name === 'monster_locations') {
                 layer.objects.forEach((obj) => {
-                    let spawner  = getTiledProperty(obj, 'spawner');
-
-                    if (this.monsterLocations[spawner]) {
-                        this.monsterLocations[spawner].push([obj.x, obj.y]);
+                    if (this.monsterLocations[obj.properties.spawner]) {
+                        this.monsterLocations[obj.properties.spawner].push([obj.x, obj.y]);
                     } else {
-                        this.monsterLocations[spawner] = [[obj.x, obj.y]];
+                        this.monsterLocations[obj.properties.spawner] = [[obj.x, obj.y]];
                     }
                 });
             }
@@ -66,18 +61,17 @@ class GameManager {
     }
 
     setupSpawners() {
-        console.log(this.chestLocations);
         Object.keys(this.chestLocations).forEach((value, key) => {
             const config = {
                 spawnInterval: 3000,
                 limit: 3,
-                objectType: 'CHEST',
+                spawnerType: SpawnerType.CHEST,
                 id: `chest-${ key }`
             };
 
             const spawner = new Spawner(
                 config,
-                this.chestLocations[key],
+                this.chestLocations[key] ? this.chestLocations[key] : [],
                 this.addChest.bind(this),
                 this.deleteChest.bind(this)
             );
@@ -88,11 +82,10 @@ class GameManager {
 
     addChest(id, chest) {
         this.chests[id] = chest;
-        console.log(chest);
     }
 
-    deleteChest() {
-
+    deleteChest(chestId) {
+        delete this.chests[chestId];
     }
 
     spawnPlayer() {

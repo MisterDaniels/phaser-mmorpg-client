@@ -1,3 +1,4 @@
+import { randomNumber, SpawnerType } from '.';
 import { ChestModel } from '../models';
 
 class Spawner {
@@ -20,19 +21,19 @@ class Spawner {
 
     start() {
         this.interval = setInterval(() => {
-            if (this.objectsCreated.length < this.limit) {
+            if (this.spawnLocations.length > 0 && this.objectsCreated.length < this.limit) {
                 this.spawnObject();
             }
         }, this.spawnInterval);
     }
 
     spawnObject() {
-        console.log('spawning object');
-
         let object;
-        if (this.objectType === 'CHEST') {
+        if (this.objectType === SpawnerType.CHEST) {
             object = this.spawnChest();
         }
+
+        if (!object) return;
 
         this.objectsCreated.push(object);
         this.addObject(object.id, object);
@@ -40,7 +41,7 @@ class Spawner {
 
     spawnChest() {
         const location = this.pickRandomLocation();
-        return new ChestModel(location[0], location[1], 10, this.id);
+        return new ChestModel(location[0], location[1], randomNumber(10, 20), this.id);
     }
 
     pickRandomLocation() {
@@ -59,7 +60,10 @@ class Spawner {
         return location;
     }
 
-    removeObject() {}
+    removeObject(id) {
+        this.objectsCreated = this.objectsCreated.filter(obj => obj.id !== id);
+        this.deleteObject(id);
+    }
 
 }
 
