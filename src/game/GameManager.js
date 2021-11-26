@@ -12,6 +12,7 @@ class GameManager {
 
         this.spawners = {};
         this.chests = {};
+        this.monsters = {};
 
         this.playerLocations = [];
         this.chestLocations = [];
@@ -65,20 +66,37 @@ class GameManager {
     }
 
     setupSpawners() {
-        Object.keys(this.chestLocations).forEach((value, key) => {
-            const config = {
-                spawnInterval: 3000,
-                limit: 3,
-                spawnerType: SpawnerType.CHEST,
-                id: `chest-${ key }`
-            };
+        const config = {
+            spawnInterval: 3000,
+            limit: 3,
+            spawnerType: SpawnerType.CHEST,
+            id: ''
+        };
 
-            const spawner = new Spawner(
+        let spawner;
+        Object.keys(this.chestLocations).forEach((value, key) => {
+            config.id = `chest-${ key }`;
+
+            spawner = new Spawner(
                 config,
-                this.chestLocations[key] ? this.chestLocations[key] : [],
+                this.chestLocations[key] || [],
                 this.addChest.bind(this),
                 this.deleteChest.bind(this)
             );
+
+            this.spawners[spawner.id] = spawner;
+        });
+
+        Object.keys(this.monsterLocations).forEach((value, key) => {
+            config.id = `monster-${ key }`;
+            config.spawnerType = SpawnerType.MONSTER;
+
+            spawner = new Spawner(
+                config,
+                this.monsterLocations[key] || [],
+                this.addMonster.bind(this),
+                this.deleteMonster.bind(this)
+            )
 
             this.spawners[spawner.id] = spawner;
         });
@@ -91,6 +109,15 @@ class GameManager {
 
     deleteChest(chestId) {
         delete this.chests[chestId];
+    }
+
+    addMonster(monsterId, monster) {
+        this.monsters[monsterId] = monster;
+        this.scene.events.emit('monsterSpawned', monster);
+    }
+
+    deleteMonster(monsterId) {
+        delete this.monsters[monsterId];
     }
 
     spawnPlayer() {

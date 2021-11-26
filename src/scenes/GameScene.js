@@ -91,20 +91,24 @@ class GameScene extends Phaser.Scene {
         this.events.emit('pickUpChest', chest.id);
     }
 
-    spawnChest(chestObject) {
-        let chest = this.chests.getFirstDead();
+    spawnChest(chest) {
+        let chestObject = this.chests.getFirstDead();
 
-        if (!chest) {
-            chest = new Chest(this, chestObject.x * 2, chestObject.y * 2, 'items', 0, chestObject.gold, chestObject.id);
+        if (!chestObject) {
+            chestObject = new Chest(this, chest.x * 2, chest.y * 2, 'items', 0, chest.gold, chest.id);
             this.chests.add(chest);
             return;
         }
         
-        chest.coins = chestObject.gold;
-        chest.id = chestObject.id;
+        chestObject.coins = chest.gold;
+        chestObject.id = chest.id;
 
-        chest.setPosition(chestObject.x * 2, chestObject.y * 2);
-        chest.makeActive();
+        chestObject.setPosition(chest.x * 2, chest.y * 2);
+        chestObject.makeActive();
+    }
+
+    spawnMonster(monster) {
+        console.log(monster);
     }
 
     createGameManager() {
@@ -115,6 +119,10 @@ class GameScene extends Phaser.Scene {
 
         this.events.on('chestSpawned', (chest) => {
             this.spawnChest(chest);
+        });
+
+        this.events.on('monsterSpawned', (monster) => {
+            this.spawnMonster(monster);
         });
 
         this.gameManager = new GameManager(this, this.map.map.objects);
