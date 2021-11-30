@@ -4,6 +4,7 @@ import { Chest } from '../objects';
 import { Player } from '../characters';
 import { Map } from '../map';
 import { GameManager } from '../game';
+import { Monster } from '../objects';
 
 class GameScene extends Phaser.Scene {
 
@@ -46,6 +47,7 @@ class GameScene extends Phaser.Scene {
 
     createGroups() {
         this.chests = this.physics.add.group();
+        this.monsters = this.physics.add.group();
     }
 
     createPlayer(location) {
@@ -107,8 +109,31 @@ class GameScene extends Phaser.Scene {
         chestObject.makeActive();
     }
 
-    spawnMonster(monster) {
-        console.log(monster);
+    spawnMonster(monsterObject) {
+        let monster = this.monsters.getFirstDead();
+
+        if (monster) {
+            monster.id = monsterObject.id;
+            monster.health = monsterObject.health;
+            monster.maxHealth = monsterObject.maxHealth;
+            monster.setTexture('monsters', monsterObject.frame);
+            monster.setPosition(monsterObject.x * 2, monsterObject.y * 2);
+            monster.makeActive();
+        }
+
+        monster = new Monster(
+            this,
+            monsterObject.x * 2,
+            monsterObject.y * 2,
+            'monsters',
+            monsterObject.frame,
+            monsterObject.id,
+            monsterObject.health,
+            monsterObject.maxHealth
+        );
+
+        this.monsters.add(monster);
+        monster.setCollideWorldBounds(true);
     }
 
     createGameManager() {
